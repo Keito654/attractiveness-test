@@ -16,11 +16,12 @@ interface ScoreItemProps {
 function ScoreItem({ label, score }: ScoreItemProps) {
   const MAX_SCORE = 30;
   const percentage = (score / MAX_SCORE) * 100;
+  const isLow = score <= 15;
   return (
     <div className="space-y-2">
       <div className="flex justify-between items-center">
         <span className="text-sm font-medium">{label}</span>
-        <span className="text-2xl font-bold">
+        <span className={`text-2xl font-bold ${isLow ? "text-red-500" : ""}`}>
           {score}
           <span className="text-sm font-normal text-muted-foreground"> / {MAX_SCORE}</span>
         </span>
