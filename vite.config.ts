@@ -109,7 +109,7 @@ export default defineConfig({
           ],
         },
         env: {
-          es2020: true,
+          es2023: true,
           browser: true,
         },
       },
