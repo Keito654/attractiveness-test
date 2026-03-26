@@ -44,7 +44,7 @@ export function ResultScreen({ scores, onReset }: ResultScreenProps) {
             <ScoreItem label="性格が悪い" score={scores.character} />
           </div>
           <p className="text-xs text-muted-foreground text-center">
-            各カテゴリは最大30点（6問 × 5点）です。点数が高いほど課題があることを示します。
+            各カテゴリは最大30点（6問 × 5点）です。
           </p>
           <Button variant="outline" className="w-full" onClick={onReset}>
             もう一度テストする
