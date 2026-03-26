@@ -5,6 +5,12 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: "/attractiveness-test/",
+  resolve: {
+    alias: {
+      "@": `${import.meta.dirname}/src`,
+    },
+  },
   staged: {
     "*": "vp check --fix",
   },
