@@ -5,12 +5,23 @@ import { QuizScreen } from "@/components/QuizScreen";
 import { ResultScreen } from "@/components/ResultScreen";
 import { calculateScores } from "@/lib/scoring";
 import type { Scores } from "@/lib/scoring";
+import {
+  createResultHistoryEntry,
+  loadResultHistory,
+  saveResultHistory,
+  type ResultHistoryEntry,
+} from "@/lib/resultHistory";
 
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
   const [answers, setAnswers] = useState<number[]>(Array(18).fill(0));
   const [scores, setScores] = useState<Scores>({ lie: 0, emotion: 0, character: 0 });
+  const [history, setHistory] = useState<ResultHistoryEntry[]>([]);
+
+  useEffect(() => {
+    setHistory(loadResultHistory());
+  }, []);
 
   useEffect(() => {
     if (location.pathname === "/") {
@@ -24,7 +35,11 @@ function App() {
   };
 
   const handleSubmit = (finalAnswers: number[]) => {
-    setScores(calculateScores(finalAnswers));
+    const nextScores = calculateScores(finalAnswers);
+    const nextHistoryEntry = createResultHistoryEntry(finalAnswers, nextScores);
+
+    setScores(nextScores);
+    setHistory(saveResultHistory(nextHistoryEntry));
     void navigate("/result");
   };
 
@@ -41,7 +56,10 @@ function App() {
           <QuizScreen answers={answers} onAnswersChange={setAnswers} onSubmit={handleSubmit} />
         }
       />
-      <Route path="/result" element={<ResultScreen scores={scores} onReset={handleReset} />} />
+      <Route
+        path="/result"
+        element={<ResultScreen scores={scores} history={history} onReset={handleReset} />}
+      />
     </Routes>
   );
 }
