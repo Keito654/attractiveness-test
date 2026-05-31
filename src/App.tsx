@@ -3,6 +3,7 @@ import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { StartScreen } from "@/components/StartScreen";
 import { QuizScreen } from "@/components/QuizScreen";
 import { ResultScreen } from "@/components/ResultScreen";
+import { HistoryScreen } from "@/components/HistoryScreen";
 import { calculateScores } from "@/lib/scoring";
 import type { Scores } from "@/lib/scoring";
 import {
@@ -34,6 +35,11 @@ function App() {
     void navigate("/quiz");
   };
 
+  const handleShowHistory = () => {
+    setHistory(loadResultHistory());
+    void navigate("/history");
+  };
+
   const handleSubmit = (finalAnswers: number[]) => {
     const nextScores = calculateScores(finalAnswers);
     const nextHistoryEntry = createResultHistoryEntry(finalAnswers, nextScores);
@@ -49,7 +55,10 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<StartScreen onStart={handleStart} />} />
+      <Route
+        path="/"
+        element={<StartScreen onStart={handleStart} onShowHistory={handleShowHistory} />}
+      />
       <Route
         path="/quiz"
         element={
@@ -59,6 +68,10 @@ function App() {
       <Route
         path="/result"
         element={<ResultScreen scores={scores} history={history} onReset={handleReset} />}
+      />
+      <Route
+        path="/history"
+        element={<HistoryScreen history={history} onBack={handleReset} onStart={handleStart} />}
       />
     </Routes>
   );

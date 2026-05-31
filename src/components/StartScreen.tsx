@@ -10,9 +10,10 @@ import {
 
 interface StartScreenProps {
   onStart: () => void;
+  onShowHistory: () => void;
 }
 
-export function StartScreen({ onStart }: StartScreenProps) {
+export function StartScreen({ onStart, onShowHistory }: StartScreenProps) {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <Card className="w-full max-w-lg">
@@ -44,9 +45,12 @@ export function StartScreen({ onStart }: StartScreenProps) {
             </p>
           </div>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="flex-col space-y-3">
           <Button className="w-full" size="lg" onClick={onStart}>
             テストを開始する
+          </Button>
+          <Button variant="outline" className="w-full" size="lg" onClick={onShowHistory}>
+            過去の結果を振り返る
           </Button>
         </CardFooter>
       </Card>
